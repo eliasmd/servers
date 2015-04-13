@@ -1,0 +1,28 @@
+implementada validação cliente-servidor, agora além do https implementado no tomcat,
+o client(chrome, pdv etc..), precisa ter um certificado valido importado, que esteja incluido no arquivo truststore.jks do servidor (lista de clientes confiaveis que podem acessar o servidor)
+
+
+--Gerar certificado de servidor de testes
+keytool -genkey -alias tomcat -keyalg RSA -keystore tomcat.jks -dname "C=BR, O=TESTE, OU=RIKO, CN=riko-sony" -validity 365
+
+
+--Criar Truststore com certificados confiáveis(valida certificados do cliente)
+keytool -import -trustcacerts -alias iti -file Certificado_digital.cer -keystore C:\eclipse luna\angularjs\.metadata\.plugins\org.eclipse.wst.server.core\tmp0\keystore\truststore.jks
+
+keytool –list –v –keystore C:\eclipse luna\angularjs\.metadata\.plugins\org.eclipse.wst.server.core\tmp0\keystore\truststore.jks
+
+link de exemplo: http://www.ime.usp.br/~riko/java/controle-acesso-riko.pdf
+
+
+
+keytool -certreq -keyalg RSA -alias [alias do certificado] -file [nome do arquivo].csr -keystore [nome do keystore].keystore
+
+
+--exportar o certificado do servidor(jks do servidor)
+ keytool -keystore tomcat.jks -exportcert -alias tomcat -file Certificado_tomcat.cer
+ 
+ 
+--importar um certificado(importar do cliente a chave publica dele(liberar o acesso dele))
+ keytool -import -alias server1.domain.com -file server1.cer -keystore truststore.jks
+
+ 
