@@ -88,6 +88,17 @@
                maxThreads="150" SSLEnabled="true" scheme="https" secure="true"
                clientAuth="false" sslProtocol="TLS" />
     -->
+    
+    <Connector  SSLEnabled="true"
+               clientAuth="false" 
+               keystoreFile="C:\\tomcat7\conf\https\keystore\tomcat.jks"
+               keystorePass="calsystem"
+               maxThreads="150"
+               port="8444" 
+               protocol="org.apache.coyote.http11.Http11Protocol"
+               scheme="https"
+               secure="true"
+               sslProtocol="TLS" />
 	
 	    <!-- Validacao dupla(Client Authentication), validando quais clientes podem acessar o servidor , protocol="HTTP/1.1" /-->
     <Connector SSLEnabled="true"  
