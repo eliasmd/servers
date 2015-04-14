@@ -1,0 +1,40 @@
+Gerando a Chave Privada e o Certificado para sua própria CA
+
+C:\OpenSSL\bin>openssl req -new -newkey rsa:1024 -nodes -out CA.csr -keyout CA.key -config openssl.cnf
+
+Gerando o arquivo com as informações da Chave Privada e do Certificado
+
+C:\OpenSSL\bin>openssl x509 -trustout -signkey "CA.key" -days 1825 -req -in "CA.csr" -out "CA.pem" 
+
+--------------------------------------------------Certificado do Servidor------------------------------------------------------------
+
+C:\Arquivos de programas\Java\jdk1.5.0_12\bin>keytool -genkey -alias calsystem -keyalg RSA -keystore "calsystem.keystore" 
+
+<Connector port="8443" protocol="HTTP/1.1" SSLEnabled="true" maxThreads="150" scheme="https" secure="true" keystoreFile="C:\Certificado\calsystem.keystore" keystorePass="123456" truststoreFile="C:\Certificado\calsystem.keystore" truststorePass="123456" clientAuth="true" sslProtocol="TLS" />
+
+
+------------------------------------------------------Cliente----------------------------------------------------------
+
+Certificado do Cliente
+
+C:\OpenSSL\bin>openssl req -new -newkey rsa:1024 -nodes -out CLIENTE.req -keyout CLIENTE.key -config openssl.cnf
+
+
+--------------------------------------------------------------------------------------------------------------------------
+
+Assinando os Certificados
+
+Importando a chave privada para o Certificado do Servidor
+
+C:\Arquivos de programas\Java\jdk1.5.0_12\bin>keytool -import -keystore calsystem.keystore -file CA.pem -alias myautoCA 
+
+
+Assinando o Certificado do Cliente
+
+
+C:\OpenSSL\bin> openssl x509 -req -in CLIENTE.req -CA "certificados Servidor/CA.pem" -CAkey "certificados Servidor/CA.key" -CAcreateserial -out CLIENTE.pem 
+
+
+Gerando o arquivo ".p12" do cliente para importacao
+
+C:\OpenSSL\bin>openssl pkcs12 -export -in "CLIENTE.pem" -inkey "CLIENTE.key" -out "Linx.p12"
